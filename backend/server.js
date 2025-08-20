@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import {config} from 'dotenv'
+import { connectDB } from './config/connectDB.js'
 
 
 
@@ -10,6 +11,7 @@ app.use(cors())
 app.use(express.json())
 const PORT = process.env.PORT || 4000
 
+connectDB()
 app.get("/api/notes",(req,res)=>{
     res.status(200).json({success:true,message:"Get all notes success"})
 })
