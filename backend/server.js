@@ -1,14 +1,18 @@
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
+import {config} from 'dotenv'
 
 
 
 const app = express()
-dotenv.config()
-app.use(cors)
+config()
+app.use(cors())
 app.use(express.json())
 const PORT = process.env.PORT || 4000
+
+app.get("/api/notes",(req,res)=>{
+    res.status(200).json({success:true,message:"Get all notes success"})
+})
 
 
 
