@@ -73,3 +73,19 @@ export const updateNote = async(req,res)=>{
         res.status(500).json({success:false,message:error.message})
     }
 }
+
+export const deleteNote = async(req,res)=>{
+    try {
+        const noteId = req.params
+
+        if(!noteId){
+            return res.status(404).json({success:false, message:"Node ID is empty"})
+        }
+
+        await Note.findByIdAndDelete(noteId)
+        res.status(200).json({success:true, message:"Deleted Note success"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}
