@@ -32,3 +32,18 @@ export const getAllNote = async(req,res)=>{
         res.status(500).json({success:false,message:error.message})
     }
 }
+
+export const getNoteById =async(req,res)=>{
+    try {
+        const noteId = req.params
+        if(!noteId){
+            return res.status(400).json({success:false, message: "Note ID is empty"})
+        }
+        const noteById = await Note.findById(noteId)
+        
+        res.status(200).json({success:true, data: noteById})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}
