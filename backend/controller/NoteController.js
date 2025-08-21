@@ -19,3 +19,16 @@ export const addNote = async(req,res)=>{
         res.status(500).json({success:false, message:error.message})
     }
 }
+
+export const getAllNote = async(req,res)=>{
+    try {
+        const allNotes = await Note.find()
+        
+
+        res.status(200).json({success:true,data : allNotes})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,message:error.message})
+    }
+}
