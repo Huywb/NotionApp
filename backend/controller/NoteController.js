@@ -47,3 +47,29 @@ export const getNoteById =async(req,res)=>{
         res.status(500).json({success:false, message:error.message})
     }
 }
+
+export const updateNote = async(req,res)=>{
+    try {
+        const {title, content} = req.body
+        const noteId = req.params
+        if(!noteId){
+            return res.status(404).json({success:false,message:"Note ID is empty"})
+        }
+        
+        const note = await Note.findById(noteId)
+        if(!note){
+            return res.status(404).json({success:false, message:"Cannot find note"})
+        }
+
+        const updateNote = await Note.findByIdAndUpdate(noteId,
+            {
+                title,
+                content
+            },{new:true}
+        )
+        res.status(200).json({success:true,message:"Update note success"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,message:error.message})
+    }
+}
