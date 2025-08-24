@@ -3,6 +3,7 @@ import cors from 'cors'
 import {config} from 'dotenv'
 import { connectDB } from './config/connectDB.js'
 import NoteRouter from './router/Note.js'
+import { ratelimit } from './middleware/ratelimit.js'
 
 
 
@@ -10,6 +11,7 @@ const app = express()
 config()
 app.use(cors())
 app.use(express.json())
+app.use(ratelimit)
 const PORT = process.env.PORT || 4000
 
 connectDB()
