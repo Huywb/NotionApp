@@ -3,11 +3,11 @@ import HomePage from './pages/HomePage'
 import CreatePage from './pages/CreatePage'
 import NoteDetailPage from './pages/NoteDetailPage'
 import toast from 'react-hot-toast'
+import Header from './components/Header'
 const App = () => {
   return (
-    <div>
-      {toast.success("HEllo")}
-      TTest
+    <div className='w-full bg-black h-screen'>
+      <Header></Header>
         <Routes>
           <Route path='/' element={<HomePage></HomePage>}></Route>
           <Route path='/add' element={<CreatePage></CreatePage>}></Route>
