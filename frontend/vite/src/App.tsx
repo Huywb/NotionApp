@@ -8,7 +8,7 @@ import ListCard from './components/ListCard'
 import Pagition from './components/Pagition'
 const App = () => {
   return (
-    <div className='w-full bg-black h-min-screen text-white '>
+    <div className='w-full bg-black text-white min-h-screen '>
       <Header></Header>
         <Routes>
           <Route path='/' element={<HomePage></HomePage>}></Route>
