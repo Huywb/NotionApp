@@ -4,6 +4,9 @@ import Note from "../model/Note.js"
 export const addNote = async(req,res)=>{
     try {
         const {title,content} = req.body
+        console.log(req.body)
+        console.log(title)
+        console.log(content)
         if(!title || !content){
             return res.status(404).json({success:false,message:"All field are required"})
         }
