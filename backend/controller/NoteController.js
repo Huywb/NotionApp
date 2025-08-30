@@ -26,8 +26,6 @@ export const addNote = async(req,res)=>{
 export const getAllNote = async(req,res)=>{
     try {
         const allNotes = await Note.find()
-        
-
         res.status(200).json({success:true,data : allNotes})
 
     } catch (error) {
@@ -38,12 +36,13 @@ export const getAllNote = async(req,res)=>{
 
 export const getNoteById =async(req,res)=>{
     try {
-        const noteId = req.params
-        if(!noteId){
+        const {id} = req.params
+        console.log(id)
+        if(!id){
             return res.status(400).json({success:false, message: "Note ID is empty"})
         }
-        const noteById = await Note.findById(noteId)
-        
+        const noteById = await Note.findById(id)
+
         res.status(200).json({success:true, data: noteById})
     } catch (error) {
         console.log(error)
@@ -54,17 +53,17 @@ export const getNoteById =async(req,res)=>{
 export const updateNote = async(req,res)=>{
     try {
         const {title, content} = req.body
-        const noteId = req.params
-        if(!noteId){
+        const {id} = req.params
+        if(!id){
             return res.status(404).json({success:false,message:"Note ID is empty"})
         }
-        
-        const note = await Note.findById(noteId)
+
+        const note = await Note.findById(id)
         if(!note){
             return res.status(404).json({success:false, message:"Cannot find note"})
         }
 
-        const updateNote = await Note.findByIdAndUpdate(noteId,
+        const updateNote = await Note.findByIdAndUpdate(id,
             {
                 title,
                 content
@@ -79,13 +78,13 @@ export const updateNote = async(req,res)=>{
 
 export const deleteNote = async(req,res)=>{
     try {
-        const noteId = req.params
+        const { id } = req.params
 
-        if(!noteId){
+        if(!id){
             return res.status(404).json({success:false, message:"Node ID is empty"})
         }
 
-        await Note.findByIdAndDelete(noteId)
+        await Note.findByIdAndDelete(id)
         res.status(200).json({success:true, message:"Deleted Note success"})
     } catch (error) {
         console.log(error)
