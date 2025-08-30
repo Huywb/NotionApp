@@ -1,12 +1,24 @@
 import { Delete, Edit } from 'lucide-react'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { BaseAxios } from '../utils/axios'
+import toast from 'react-hot-toast'
 
 interface CardProps {
     id: number,
     item: any
 }
 const Card: React.FC<CardProps> = ({ id,item }) => {
+  const navigate = useNavigate()
+  const handleDelete= async ()=>{
+    const res = await BaseAxios.delete(`/delete/${id}`)
+    if(res.status === 200){
+      toast.success('Note deleted successfully')
+      navigate('/')
+    }else{
+      toast.error('Failed to delete note');
+    }
+  }
   console.log(item)
   return (
     <div className='bg-[#212121] p-4 rounded-xl border-t-2 outline-none border-t-green-400'>
@@ -24,7 +36,7 @@ const Card: React.FC<CardProps> = ({ id,item }) => {
           <Link to={`/notes/${id}`}>
             <Edit className='hover:text-green-400 cursor-pointer transition-colors duration-300' />
           </Link>
-          <Delete className='hover:text-red-500 cursor-pointer transition-colors duration-300' />
+          <Delete onClick={handleDelete} className='hover:text-red-500 cursor-pointer transition-colors duration-300' />
         </div>
       </div>
     </div>
