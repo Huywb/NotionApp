@@ -1,20 +1,45 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { BaseAxios } from '../utils/axios'
+import toast from 'react-hot-toast'
 
 
 
 const NoteDetailPage = () => {
   const params = useParams()
-  console.log(params.id)
-  const title = 'tesst'
-  const content = 'test'
+  const navigate = useNavigate()
   const [info,setInfo] = useState({
-    title: title || '',
-    content: content || ''
+    title:'',
+    content:''
   })
+
+  useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const res = await BaseAxios.get(`/${params.id}`)
+          setInfo({
+            title: res.data.data.title || '',
+            content: res.data.data.content || ''
+          })
+        } catch (error) {
+          console.log(error)        
+        }
+      }
+      fetchData()
+    },[])
   
-  const handleSubmit = () => {
-    console.log(info)
+  const handleSubmit = async () => {
+    const res = await BaseAxios.put(`/updateNote/${params.id}`, info)
+    if(res.status === 200){
+      toast.success('Note updated successfully')
+      setInfo({
+        title: '',
+        content: ''  
+      })
+      navigate('/')
+    }else{
+      toast.error('Failed to update note');
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => { 
@@ -39,7 +64,6 @@ const NoteDetailPage = () => {
               <textarea name='content' value={info.content} onChange={(e)=>handleChange(e)} rows={4} className='border rounded-md w-[80%]' id="note-content"></textarea>
             </div>
           </div>
-
           <button onClick={handleSubmit} className='bg-green-500 px-4 py-2 rounded-full text-xl cursor-pointer'>Update Note</button>
         </div>
     </div>
