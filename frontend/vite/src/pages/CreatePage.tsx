@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { BaseAxios } from '../utils/axios'
+import toast from 'react-hot-toast'
 
 const CreatePage = () => {
   const [info,setInfo] = useState({
@@ -6,8 +8,17 @@ const CreatePage = () => {
     content: ''
   })
   
-  const handleSubmit = () => {
-    console.log(info)
+  const handleSubmit = async () => {
+    try {
+      const res = await BaseAxios.post('/addNote', info)
+      if (res.status === 201) {
+        toast.success('Note added successfully')
+      } else {
+        toast.error('Failed to add note')
+      }
+    } catch (error) {
+      toast.error('Failed to add note')
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => { 
@@ -25,11 +36,11 @@ const CreatePage = () => {
           <div className='flex flex-col w-[80%] text-xl p-4 gap-10 justify-end '>
             <div className='flex  w-full gap-16 items-center   '>
               <label htmlFor="note-title">Title </label>
-              <input name='title' onChange={(e)=>handleChange(e)} className='border rounded-md h-10 w-[80%]' type="text" id="note-title" />
+              <input name='title' onChange={(e)=>handleChange(e)} className='px-2 border rounded-md h-10 w-[80%]' type="text" id="note-title" />
             </div>
             <div className='flex w-full gap-8 '>
-              <label htmlFor="note-content">Content </label> 
-              <textarea name='content' onChange={(e)=>handleChange(e)} rows={4} className='border rounded-md w-[80%]' id="note-content"></textarea>
+              <label htmlFor="note-content">Content </label>
+              <textarea name='content' onChange={(e)=>handleChange(e)} rows={4} className='px-2 border rounded-md w-[80%]' id="note-content"></textarea>
             </div>
           </div>
 
